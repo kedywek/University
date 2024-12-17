@@ -13,8 +13,16 @@ void addEmployees(EmployeeDatabase& database);
 void modifyEmployees(EmployeeDatabase& database);
 void addBooks(BookLibrary& library);
 void modifyBooks(BookLibrary& library);
+void testEmployee();
+void testBook();
 
 int main() {
+	testEmployee();
+	testBook();
+	return 0;
+}
+
+void testEmployee(){
 	EmployeeDatabase employeeDatabase;
 	addEmployees(employeeDatabase);
 
@@ -33,6 +41,20 @@ int main() {
 
 	cout << "Employee database after removing a record:" << endl << employeeDatabase << endl;
 
+	try {
+		employeeDatabase.add(761028073, Employee("Duplicate Employee", "position", 30));
+	} catch (const keyAlreadyExists& e) {
+		cout << e.what() << endl;
+	}
+
+	Employee* employee = employeeDatabase.find(999999999);
+	if (employee == nullptr) {
+		cout << "Employee not found" << endl;
+	}
+
+};
+
+void testBook(){
 	BookLibrary library;
 	addBooks(library);
 
@@ -50,25 +72,12 @@ int main() {
 	library.remove("1984");
 
 	cout << "Book library after removing a record:" << endl << library << endl;
-
-	try {
-		employeeDatabase.add(761028073, Employee("Duplicate Employee", "position", 30));
-	} catch (const keyAlreadyExists& e) {
-		cout << e.what() << endl;
-	}
-
-	Employee* employee = employeeDatabase.find(999999999);
-	if (employee == nullptr) {
-		cout << "Employee not found" << endl;
-	}
-
-	Book* book = library.find("Non-existent Book");
+		Book* book = library.find("Non-existent Book");
 	if (book == nullptr) {
 		cout << "Book not found" << endl;
 	}
 
-	return 0;
-}
+};
 
 void addEmployees(EmployeeDatabase& database) {
 	database.add(761028073, Employee("Jan Kowalski", "salesman", 28));
